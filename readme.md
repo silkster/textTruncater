@@ -1,4 +1,4 @@
-jQuery Text Truncater Plugin
+# jQuery Text Truncater Plugin
 
 
 This plugin adds an ellipsis to a text string at the point in the text where it will be truncated to its containers height and width.
