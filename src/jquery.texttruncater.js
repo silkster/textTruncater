@@ -31,11 +31,11 @@
         var plugin = this;
         // set the text properties of the plugin instance
         if (plugin.text.selector === '') {
-            plugin.text.value = plugin.container.element.text();
+            plugin.text.value = $.trim(plugin.container.element.text());
             plugin.text.element = container;
         } else {
+            plugin.text.value = $.trim(plugin.text.element.text());
             plugin.text.element = $(plugin.text.selector, plugin.container.element).eq(0);
-            plugin.text.value = plugin.text.element.text();
         }
         
         // process the text for truncation
