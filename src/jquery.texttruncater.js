@@ -1,14 +1,3 @@
-/**
- *  jQuery Text Truncater Plugin
- *  Author: Dan Silk, http://github.com/silkster
- *  
- *
- *  This plugin adds an ellipsis to a text string at the point in the text where it will be truncated
- *  to its containers height and width.
- *
- *  The container should have height and width and its overflow should be set to hidden.  Then the plugin
- *  will determine the best place to put the ellipsis.
- **/
 ;(function ( $, window, document, undefined ) {
     
     // Create the defaults once
@@ -34,8 +23,6 @@
         this.text = {
             selector: options.textSelector || ''
         };
-        
-        debugger;
         
         this.init();
     }
@@ -64,10 +51,20 @@
                 var word = $(this),
                     pos = word.position();
                 
+                if (word.width() > plugin.container.width) {
+                    word.siblings('span').hide();
+                    ellipsis.css({
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        background: '#ffffff',
+                        borderLeft: '5px solid #ffffff'
+                    });
+                    return false;
+                }
                 if (!spaceWidth && lastWord && lastWord.position().top == pos.top) {
                     spaceWidth = Math.ceil(pos.left - lastWord.width());
                 }
-
                 if (pos.top + word.height() > plugin.options.maxHeight) {
                     var leftPos = Math.ceil(lastWord.position().left) + lastWord.width() + (spaceWidth || 0);
                     if (plugin.container.width - leftPos > Math.ceil(ellipsis.width())) {
@@ -79,7 +76,6 @@
             });
             lastWord.before(ellipsis);
         }
-        
     };
     
     // add the plugin to jQuery
