@@ -70,7 +70,7 @@
 
         // process the text for truncation
         var words = this.text.value.split(' '),
-            spanned = '<span style="display:inline-block">' + words.join('</span> <span>') + '</span>',
+            spanned = '<span style="display:inline-block">' + words.join('</span> <span style="display:inline-block">') + '</span>',
             ellipsis = $('<i class="dotdotdot">&#133;</i>'),
             lastWord, dotWidth, spaceWidth;
         plugin.text.element.html(spanned).append(ellipsis);
