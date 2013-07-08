@@ -13,17 +13,17 @@
  *
  *  Configurable Options:
  *
- *    maxLines          integer             default value is 1
+ *    "maxLines"        integer             default value is 1
  *
- *    textSelector      string              the element selector within the container with text that should be truncated
+ *    "textSelector"    string              the element selector within the container with text that should be truncated
  *
- *    attributes        array or string     array: of attributes to set as the original text; examples: title or some 
+ *    "attributes"      array or string     array: of attributes to set as the original text; examples: title or some 
  *                                                 data- attribute like data-text
  *                                          string: the only attribute to set
  *
  *
  **/
-;(function ( $, window, document, undefined ) {
+;(function ($) {
     // Create the defaults once
     var pluginName = 'textTruncator',
         defaults = {
@@ -56,9 +56,13 @@
      **/
     Plugin.prototype._setMaxHeight = function () {
         if (this.text && this.text.element) {
-            var lineHeight, words = this.text.element.find('span');
+            var lineHeight, firstWord,
+                words = this.text.element.find('span');
+
             if (words.length > 0) {
-                lineHeight = words.eq(0).height();
+                firstWord = words.eq(0);
+                lineHeight = firstWord.height();
+
                 this.container.maxHeight = lineHeight * this.options.maxLines;
                 this.container.element.css('max-height', this.container.maxHeight);
             }
@@ -108,7 +112,7 @@
         // process the text for truncation
         var words = this.text.value.split(' '),
             spanned = '<span style="display:inline-block">' + words.join('</span> <span style="display:inline-block">') + '</span>',
-            lastWord, dotWidth, spaceWidth;
+            lastWord, spaceWidth;
         plugin.text.element.html(spanned).append(plugin.ellipsis);
         plugin._setMaxHeight();
 
@@ -156,4 +160,4 @@
             }
         });
     };
-})( jQuery, window, document );
+})(jQuery);
