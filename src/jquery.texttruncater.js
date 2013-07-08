@@ -37,6 +37,7 @@
         this.text = {
             selector: options.textSelector || ''
         };
+        this.ellipsis = $('<i class="dotdotdot">&#133;</i>');
        
         this.init();
     }
@@ -54,6 +55,16 @@
             }
         }
     };
+    
+    /**
+     * Removes the spans from the text.
+     **/
+    Plugin.prototype.resetText = function () {
+        var ellipsisChar = this.ellipsis.text(),
+            txt = this.text.element.text();
+        
+        this.text.element.text(txt.replace(ellipsisChar, ellipsisChar + ' '));
+    };
 
     Plugin.prototype.init = function () {
         var plugin = this;
@@ -65,14 +76,13 @@
             plugin.text.element = $(plugin.text.selector, plugin.container.element).eq(0);
             plugin.text.value = $.trim(plugin.text.element.text());
         }
-
+        
         // process the text for truncation
         var words = this.text.value.split(' '),
             spanned = '<span style="display:inline-block">' + words.join('</span> <span style="display:inline-block">') + '</span>',
-            ellipsis = $('<i class="dotdotdot">&#133;</i>'),
             lastWord, dotWidth, spaceWidth;
         
-        plugin.text.element.html(spanned).append(ellipsis);
+        plugin.text.element.html(spanned).append(plugin.ellipsis);
         plugin._setMaxHeight();
         
         // process the text and insert an ellipsis where it should be truncated
@@ -83,7 +93,7 @@
                 
                 if (word.width() > plugin.container.width) {
                     word.siblings('span').hide();
-                    ellipsis.css({
+                    plugin.ellipsis.css({
                         position: 'absolute',
                         top: 0,
                         right: 0,
@@ -97,14 +107,17 @@
                 }
                 if (lastWord && pos.top + word.height() > plugin.container.maxHeight) {
                     var leftPos = Math.ceil(lastWord.position().left) + lastWord.width() + (spaceWidth || 0);
-                    if (plugin.container.width - leftPos > Math.ceil(ellipsis.width())) {
+                    if (plugin.container.width - leftPos > Math.ceil(plugin.ellipsis.width())) {
                         lastWord = word;
                     }
                     return false;
                 } 
                 lastWord = word;
             });
-            lastWord.before(ellipsis);
+            lastWord.before(plugin.ellipsis);
+            
+            // set the content back to text only, i.e. remove the spans surrounding each word.
+            plugin.resetText();
         }
     };
     

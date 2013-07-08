@@ -4,7 +4,7 @@ This plugin adds an ellipsis to a text string at the point in the text where it 
 
 ## Notes
 
-Each word in the element text will be wrapped with a span tag with CSS property display: inline-block.  The truncation point will be set by inserting an ellipsis character between the last word of the last line to show and the first word of the next line.  The truncation point is determined by using the maximum height for the container.  The max-height CSS property is determined by multiplying the height of the first word of the text by the value of the maximum number of lines to show (options.maxLines).
+Each word in the element text will be wrapped with a span tag with CSS property display: inline-block.  The truncation point will be set by inserting an ellipsis character between the last word of the last line to show and the first word of the next line.  The truncation point is determined by using the maximum height for the container.  The max-height CSS property is determined by multiplying the height of the first word of the text by the value of the maximum number of lines to show (options.maxLines).  After the ellipsis has been added, the text content will be reset so that only text remains, i.e. the spans surrounding each word will be removed.
 
 The container should have a set width and set overflow: hidden in order for the plugin to determine the best place to put the ellipsis.
 
